@@ -354,6 +354,8 @@ static int initialize_env(void)
     return mpi_errno;
 }
 
+int MPIDI_PIP_topo_update();
+
 /* Initialize global communicator objects. */
 static int initialize_proc(void)
 {
@@ -372,6 +374,8 @@ static int initialize_proc(void)
 #ifdef CSP_ENABLE_TOPO_OPT
     mpi_errno = CSP_topo_remap();
     CSP_CHKMPIFAIL_JUMP(mpi_errno);
+
+    MPIDI_PIP_topo_update();
 #endif
 
     CSP_CALLMPI(JUMP, PMPI_Comm_rank(CSP_PROC.local_comm, &local_rank));
